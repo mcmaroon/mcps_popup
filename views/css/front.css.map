@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,WAAY;EACR,gBAAgB,EAAE,MAAM",
+"sources": ["front.scss"],
+"names": [],
+"file": "front.css"
+}

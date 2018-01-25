@@ -1,0 +1,17 @@
+{
+    "name": "mcps_popup",
+    "autoload": {
+        "psr-4": { 
+            "MCPS\\Popup\\": ""
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.35",
+        "consolidation/robo": "1.0.6"
+    }
+}

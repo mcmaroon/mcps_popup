@@ -1,0 +1,5 @@
+/nbproject/private/
+/vendor/
+/schema/dev/
+*.log
+*.sql
