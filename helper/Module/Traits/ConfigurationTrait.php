@@ -31,6 +31,6 @@ trait ConfigurationTrait
                 }
             }
         }
-        \Configuration::updateValue(\strtoupper($this->name), \serialize($config));
+        \Configuration::updateValue(\strtoupper($this->name), \serialize($config), true);
     }
 }

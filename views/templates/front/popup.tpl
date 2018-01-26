@@ -3,6 +3,6 @@
         <p class="h1">{$config.title|strip_tags}</p>
     {/if}
     {if $config.body|count_characters}
-        <div>{$config.body|strip_tags}</div>
+        <div>{$config.body|unescape}</div>
     {/if}
 </div>
