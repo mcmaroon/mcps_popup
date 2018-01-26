@@ -8,7 +8,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 class mcps_popup extends Module
 {
 
-    use \MCPS\Helper\Configuration\ConfigurationTrait;
+    use \MCPS\Helper\Configuration\ConfigurationFormTrait;
 
     const MODULE_DB_PREFIX = 'mcps_';
 
@@ -55,16 +55,7 @@ class mcps_popup extends Module
             'title' => '',
             'body' => '',
         );
-    }
-
-    public function getContent()
-    {
-        if (((bool) Tools::isSubmit('submitMcpspopup')) == true) {
-            $this->postProcess();
-        }
-
-        return $this->renderForm();
-    }
+    }    
 
     protected function renderForm()
     {
@@ -77,7 +68,7 @@ class mcps_popup extends Module
         $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
 
         $helper->identifier = $this->identifier;
-        $helper->submit_action = 'submitMcpspopup';
+        $helper->submit_action = $this->getSubmitAction();
         $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
             . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
         $helper->token = Tools::getAdminTokenLite('AdminModules');
@@ -89,68 +80,6 @@ class mcps_popup extends Module
         );
 
         return $helper->generateForm(array($this->getConfigForm()));
-    }
-
-    protected function getConfigForm()
-    {
-        $inputs = [];
-        foreach ($this->getConfig() as $fieldValueKey => $fieldValue) {
-            $type = 'textarea';
-            $is_bool = false;
-            $values = array();
-            if (is_bool($fieldValue)) {
-                $type = 'switch';
-                $is_bool = true;
-                $values = array(
-                    array(
-                        'id' => 'active_on',
-                        'value' => true,
-                        'label' => $this->l('Enabled')
-                    ),
-                    array(
-                        'id' => 'active_off',
-                        'value' => false,
-                        'label' => $this->l('Disabled')
-                    )
-                );
-            }
-            $input = array(
-                'col' => 3,
-                'type' => $type,
-                'prefix' => '<i class="icon icon-link"></i>',
-                'desc' => $this->l($fieldValueKey . 'desc'),
-                'name' => $fieldValueKey,
-                'label' => $this->l($fieldValueKey),
-                'lang' => false,
-                'is_bool' => $is_bool,
-                'values' => $values,
-            );
-            \array_push($inputs, $input);
-        }
-        return array(
-            'form' => array(
-                'legend' => array(
-                    'title' => $this->l('Settings'),
-                    'icon' => 'icon-cogs',
-                ),
-                'input' => $inputs,
-                'submit' => array(
-                    'title' => $this->l('Save'),
-                ),
-            ),
-        );
-    }
-
-    /**
-     * Save form data.
-     */
-    protected function postProcess()
-    {
-        $form_values = $this->getConfig();
-        foreach (array_keys($form_values) as $key) {
-            $form_values[$key] = Tools::getValue($key);
-        }
-        $this->setConfig($form_values);
     }
 
     public function hookHeader()
@@ -186,7 +115,7 @@ class mcps_popup extends Module
                 }
             }
         }
-        
+
         if (!$this->isCached('views/templates/front/popup.tpl', $this->getCacheId())) {
             $this->smarty->assign('config', $config);
         }
