@@ -8,7 +8,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 class mcps_popup extends Module
 {
 
-    use \MCPS\Popup\helper\Module\Traits\ConfigurationTrait;
+    use \MCPS\Helper\Configuration\ConfigurationTrait;
 
     const MODULE_DB_PREFIX = 'mcps_';
 
