@@ -58,7 +58,7 @@ class mcps_popup extends Module
         $this->addConfigurationFormElement('switch', 'useModuleCoreCss', true, $this->l('Use Module Css'), null, $values);
         $this->addConfigurationFormElement('switch', 'useModuleCoreJs', true, $this->l('Use Module Js'), null, $values);
         $this->addConfigurationFormElement('text', 'dateStart', \date('Y-m-d', \strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
-        $this->addConfigurationFormElement('text', 'dateEnd', \date('Y-m-d H:i', \strtotime('+1 week')), $this->l('Display to'), $this->l('Data zakończenia wyświetlania w formacie zgodnym z dokumentacją php strtotime.'));
+        $this->addConfigurationFormElement('text', 'dateEnd', \date('Y-m-d H:i', \strtotime('+1 week')), $this->l('Display to'), $this->l('Date of the end of the display in a format compatible with php strtotime documentation.'));
         $this->addConfigurationFormElement('switch', 'visibility', true, $this->l('Visibility'), $this->l('Display on these pages from the list or on all other pages except those listed.'), $values);
         $this->addConfigurationFormElement('textarea', 'pages', 'default', $this->l('Pages'), $this->l('Pages (body class) on which a popup should appear. The separator of subsequent entries is a new line character. "default" = homepage ex: category-3'));
         $this->addConfigurationFormElement('text', 'title', [], $this->l('Title'), null, [], true);
