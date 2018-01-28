@@ -10,8 +10,6 @@ class mcps_popup extends Module
 
     use \MCPS\Helper\Configuration\ConfigurationFormTrait;
 
-    const MODULE_DB_PREFIX = 'mcps_';
-
     public function __construct()
     {
         $this->name = basename(dirname(__FILE__));
@@ -30,8 +28,6 @@ class mcps_popup extends Module
 
     public function install()
     {
-        $this->setConfig($this->getDefaultConfig());
-
         return
             parent::install() &&
             $this->registerHook('displayFooter') &&
@@ -45,49 +41,34 @@ class mcps_popup extends Module
         return parent::uninstall();
     }
 
-    private function getDefaultConfig()
+    public function setConfigurationForm()
     {
-        return array(
-            'useModuleCoreCss' => true,
-            'useModuleCoreJs' => true,
-            'visibility' => true,
-            'pages' => '',
-            'title' => '',
-            'body' => '',
-        );
-    }    
-
-    protected function renderForm()
-    {
-        $helper = new HelperForm();
-
-        $helper->show_toolbar = false;
-        $helper->table = $this->table;
-        $helper->module = $this;
-        $helper->default_form_language = $this->context->language->id;
-        $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG', 0);
-
-        $helper->identifier = $this->identifier;
-        $helper->submit_action = $this->getSubmitAction();
-        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false)
-            . '&configure=' . $this->name . '&tab_module=' . $this->tab . '&module_name=' . $this->name;
-        $helper->token = Tools::getAdminTokenLite('AdminModules');
-
-        $helper->tpl_vars = array(
-            'fields_value' => $this->getConfig(),
-            'languages' => $this->context->controller->getLanguages(),
-            'id_language' => $this->context->language->id,
-        );
-
-        return $helper->generateForm(array($this->getConfigForm()));
+        $values = [
+            [
+                'id' => 'active_on',
+                'value' => true,
+                'label' => $this->l('Enabled')
+            ],
+            [
+                'id' => 'active_off',
+                'value' => false,
+                'label' => $this->l('Disabled')
+            ]
+        ];
+        $this->addConfigurationFormElement('switch', 'useModuleCoreCss', true, $this->l('Use Module Css'), null, $values);
+        $this->addConfigurationFormElement('switch', 'useModuleCoreJs', true, $this->l('Use Module Js'), null, $values);
+        $this->addConfigurationFormElement('text', 'dateStart', \date('Y-m-d', \strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
+        $this->addConfigurationFormElement('text', 'dateEnd', \date('Y-m-d H:i', \strtotime('+1 week')), $this->l('Display to'), $this->l('Data zakończenia wyświetlania w formacie zgodnym z dokumentacją php strtotime.'));
+        $this->addConfigurationFormElement('switch', 'visibility', true, $this->l('Visibility'), $this->l('Display on these pages from the list or on all other pages except those listed.'), $values);
+        $this->addConfigurationFormElement('textarea', 'pages', 'default', $this->l('Pages'), $this->l('Pages (body class) on which a popup should appear. The separator of subsequent entries is a new line character. "default" = homepage ex: category-3'));
+        $this->addConfigurationFormElement('text', 'title', [], $this->l('Title'), null, [], true);
+        $this->addConfigurationFormElement('textarea', 'body', '', $this->l('Body'), null, [], true);
+        $this->addConfigurationFormElement('switch', 'displayReturnToSiteBtn', true, $this->l('Display return to site button'), null, $values);
     }
 
     public function hookHeader()
     {
         $config = $this->getConfig();
-        if ($config['useModuleCoreJs']) {
-            $this->context->controller->addJS($this->_path . '/views/js/front.js');
-        }
         if ($config['useModuleCoreCss']) {
             $this->context->controller->addCSS($this->_path . '/views/css/front.css');
         }
@@ -96,6 +77,13 @@ class mcps_popup extends Module
     public function hookDisplayFooter($params)
     {
         $config = $this->getConfig();
+        if (strlen($config['dateStart']) && \strtotime($config['dateStart']) && (\strtotime($config['dateStart']) > \strtotime('now'))) {
+            return null;
+        }
+        if (strlen($config['dateEnd']) && \strtotime($config['dateEnd']) && (\strtotime($config['dateEnd']) < \strtotime('now'))) {
+            return null;
+        }
+
         $visibility = $config['visibility'];
         $pages = \preg_split('/(\r\n?|\n)/', $config['pages']);
         $hasMatch = false;
@@ -117,6 +105,7 @@ class mcps_popup extends Module
         }
 
         if (!$this->isCached('views/templates/front/popup.tpl', $this->getCacheId())) {
+            $this->smarty->assign('id_language', $this->context->language->id);
             $this->smarty->assign('config', $config);
         }
 

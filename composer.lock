@@ -4,16 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2103adf0afec8139b25346e7309f5fa",
-    "packages": [],
-    "packages-dev": [
+    "content-hash": "69a339ecea45e92020aa96ccc28429fc",
+    "packages": [
         {
             "name": "mcmaroon/mcps_helper",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcmaroon/mcps_helper.git",
-                "reference": "b8094dec97b2f8b78e4b38a7be15fd2d2ccc09e3"
+                "reference": "5ee0a4fecf63e4cd83f1e81391c8268c278c8fa0"
             },
             "require-dev": {
                 "consolidation/robo": "1.0.6",
@@ -45,9 +44,10 @@
                 "helper",
                 "prestashop"
             ],
-            "time": "2018-01-26 21:57:23"
+            "time": "2018-01-28 17:00:54"
         }
     ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {

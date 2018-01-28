@@ -10,7 +10,7 @@
             "Tests\\": "tests/"
         }
     },
-    "require-dev": {
+    "require": {
         "mcmaroon/mcps_helper": "dev-master"
     },
     "repositories": [
