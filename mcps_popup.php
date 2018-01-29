@@ -21,9 +21,9 @@ class mcps_popup extends Module
 
         parent::__construct();
 
-        $this->displayName = $this->l('popup for PrestaShop');
-        $this->description = $this->l('Description of my module.');
-        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.6.99.99');
+        $this->displayName = $this->l('Popup for PrestaShop');
+        $this->description = $this->l('Enables you to display popup on selected pages of the website.');
+        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
     }
 
     public function install()
@@ -89,9 +89,17 @@ class mcps_popup extends Module
         $hasMatch = false;
         $body_classes = array();
         $smarty = $this->context->smarty;
+        // ps 1.6.x
         if (isset($smarty->tpl_vars) && isset($smarty->tpl_vars['body_classes']) && $smarty->tpl_vars['body_classes'] instanceof \Smarty_Variable) {
             $body_classes = (array) $smarty->tpl_vars['body_classes']->value;
-        } else {
+        }
+        // ps 1.7.x
+        if (isset($smarty->tpl_vars) && isset($smarty->tpl_vars['page']) && $smarty->tpl_vars['page'] instanceof \Smarty_Variable && isset($smarty->tpl_vars['page']->value['body_classes'])) {
+            $body_classes = (array) \array_keys($smarty->tpl_vars['page']->value['body_classes']);
+        }
+
+        // Default value for index page if empty. Ps 1.6.x
+        if (!\count($body_classes)) {
             \array_push($body_classes, 'default');
         }
 
@@ -104,15 +112,24 @@ class mcps_popup extends Module
             }
         }
 
-        if (!$this->isCached('views/templates/front/popup.tpl', $this->getCacheId())) {
+        if (method_exists($this, 'fetch')) {
+            $templateFile = 'module:' . $this->name . '/views/templates/front/popup.tpl'; // ps 1.7.x
+        } else {
+            $templateFile = 'views/templates/front/popup.tpl'; // ps 1.6.x
+        }
+
+        if (!$this->isCached($templateFile, $this->getCacheId($this->name))) {
             $this->smarty->assign('id_language', $this->context->language->id);
             $this->smarty->assign('config', $config);
         }
 
         if (($visibility === true && $hasMatch === true) || ($visibility === false && $hasMatch === false)) {
-            return $this->display(__FILE__, 'views/templates/front/popup.tpl', $this->getCacheId());
+            if (method_exists($this, 'fetch')) {
+                return $this->fetch($templateFile, $this->getCacheId($this->name)); // ps 1.7.x
+            } else {
+                return $this->display(__FILE__, $templateFile, $this->getCacheId($this->name)); // ps 1.6.x
+            }
         }
-
 
         return null;
     }

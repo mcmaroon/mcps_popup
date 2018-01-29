@@ -1,15 +1,12 @@
 <div id="mcps_popup" class="mcps-popup">    
     <div class="popup-inner">
         <span class="popup-close">&times;</span>
-        <div class="popup-content">
-            {assign 'title' $config.title[$id_language] }
-            {assign 'body' $config.body[$id_language] }
-            {assign 'link' $config.link[$id_language] }
-            {if $title|count_characters}
-                <p class="popup-title">{$title|strip_tags}</p>
+        <div class="popup-content">            
+            {if isset($config.title) and isset($config.title[$id_language]) and $config.title[$id_language]|count_characters}
+                <p class="popup-title">{$config.title[$id_language]|strip_tags}</p>
             {/if}
-            {if $body|count_characters}
-                <div class="popup-body">{$body|unescape}</div>
+            {if isset($config.body) and isset($config.body[$id_language]) and $config.body[$id_language]|count_characters}
+                <div class="popup-body">{$config.body[$id_language]|unescape}</div>
             {/if}
             {if $config.displayReturnToSiteBtn === true}
                 <span class="btn btn-success popup-close">{l s="Return to site" mod="mcps_popup"}</span>
