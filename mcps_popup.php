@@ -37,7 +37,7 @@ class mcps_popup extends Module
 
     public function uninstall()
     {
-        Configuration::deleteByName(\strtoupper($this->name));
+        Configuration::deleteByName(strtoupper($this->name));
         return parent::uninstall();
     }
 
@@ -57,8 +57,8 @@ class mcps_popup extends Module
         ];
         $this->addConfigurationFormElement('switch', 'useModuleCoreCss', true, $this->l('Use Module Css'), null, $values);
         $this->addConfigurationFormElement('switch', 'useModuleCoreJs', true, $this->l('Use Module Js'), null, $values);
-        $this->addConfigurationFormElement('text', 'dateStart', \date('Y-m-d', \strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
-        $this->addConfigurationFormElement('text', 'dateEnd', \date('Y-m-d H:i', \strtotime('+1 week')), $this->l('Display to'), $this->l('Date of the end of the display in a format compatible with php strtotime documentation.'));
+        $this->addConfigurationFormElement('text', 'dateStart', date('Y-m-d', strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
+        $this->addConfigurationFormElement('text', 'dateEnd', date('Y-m-d H:i', strtotime('+1 week')), $this->l('Display to'), $this->l('Date of the end of the display in a format compatible with php strtotime documentation.'));
         $this->addConfigurationFormElement('switch', 'visibility', true, $this->l('Visibility'), $this->l('Display on these pages from the list or on all other pages except those listed.'), $values);
         $this->addConfigurationFormElement('textarea', 'pages', 'default' . PHP_EOL . 'category-3' . PHP_EOL . 'category-5', $this->l('Pages'), $this->l('Pages (body class) on which a popup should appear. The separator of subsequent entries is a new line character. "default" = homepage ex: category-3'));
         $this->addConfigurationFormElement('text', 'title', [], $this->l('Title'), null, [], true);
@@ -77,15 +77,15 @@ class mcps_popup extends Module
     public function hookDisplayFooter($params)
     {
         $config = $this->getConfig();
-        if (strlen($config['dateStart']) && \strtotime($config['dateStart']) && (\strtotime($config['dateStart']) > \strtotime('now'))) {
+        if (strlen($config['dateStart']) && strtotime($config['dateStart']) && (strtotime($config['dateStart']) > strtotime('now'))) {
             return null;
         }
-        if (strlen($config['dateEnd']) && \strtotime($config['dateEnd']) && (\strtotime($config['dateEnd']) < \strtotime('now'))) {
+        if (strlen($config['dateEnd']) && strtotime($config['dateEnd']) && (strtotime($config['dateEnd']) < strtotime('now'))) {
             return null;
         }
 
         $visibility = $config['visibility'];
-        $pages = \preg_split('/(\r\n?|\n)/', $config['pages']);
+        $pages = preg_split('/(\r\n?|\n)/', $config['pages']);
         $hasMatch = false;
         $body_classes = array();
         $smarty = $this->context->smarty;
@@ -95,17 +95,17 @@ class mcps_popup extends Module
         }
         // ps 1.7.x
         if (isset($smarty->tpl_vars) && isset($smarty->tpl_vars['page']) && $smarty->tpl_vars['page'] instanceof \Smarty_Variable && isset($smarty->tpl_vars['page']->value['body_classes'])) {
-            $body_classes = (array) \array_keys($smarty->tpl_vars['page']->value['body_classes']);
+            $body_classes = (array) array_keys($smarty->tpl_vars['page']->value['body_classes']);
         }
 
         // Default value for index page if empty. Ps 1.6.x
-        if (!\count($body_classes)) {
-            \array_push($body_classes, 'default');
+        if (!count($body_classes)) {
+            array_push($body_classes, 'default');
         }
 
-        if (\count($body_classes)) {
+        if (count($body_classes)) {
             foreach ($pages as $page) {
-                if (\is_numeric(\array_search(\trim($page), $body_classes))) {
+                if (is_numeric(array_search(trim($page), $body_classes))) {
                     $hasMatch = true;
                     break;
                 }
