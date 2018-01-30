@@ -6,7 +6,7 @@
                 <p class="popup-title">{$config.title[$id_language]|strip_tags}</p>
             {/if}
             {if isset($config.body) and isset($config.body[$id_language]) and $config.body[$id_language]|count_characters}
-                <div class="popup-body">{$config.body[$id_language]|unescape}</div>
+                <div class="popup-body">{$config.body[$id_language] nofilter}</div>
             {/if}
             {if $config.displayReturnToSiteBtn === true}
                 <span class="btn btn-success popup-close">{l s="Return to site" mod="mcps_popup"}</span>
