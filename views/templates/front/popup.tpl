@@ -9,7 +9,7 @@
                 <div class="popup-body">{$config.body[$id_language] nofilter}</div>
             {/if}
             {if $config.displayReturnToSiteBtn === true}
-                <span class="btn btn-success popup-close">{l s="Return to site" mod="mcps_popup"}</span>
+                <span class="btn btn-success popup-close">{l s='Return to site' mod='mcps_popup'}</span>
             {/if}
         </div>
     </div>
