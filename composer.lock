@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcmaroon/mcps_helper.git",
-                "reference": "05dc0c1ebef3e79d214b0c6a83b911191678b36d"
+                "reference": "8a6be0c29ff401db6f648f4ae10ef7dd576b58af"
             },
             "require-dev": {
                 "consolidation/robo": "1.0.6",
@@ -44,7 +44,7 @@
                 "helper",
                 "prestashop"
             ],
-            "time": "2018-02-02 08:07:52"
+            "time": "2018-02-06 22:49:37"
         }
     ],
     "packages-dev": [],
