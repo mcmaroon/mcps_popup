@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcmaroon/mcps_helper.git",
-                "reference": "8a6be0c29ff401db6f648f4ae10ef7dd576b58af"
+                "reference": "056b06b4f05616dac2862031b1987c219fe3cd74"
             },
             "require-dev": {
                 "consolidation/robo": "1.0.6",
@@ -35,16 +35,18 @@
             ],
             "authors": [
                 {
-                    "name": "mcmaroon"
+                    "name": "mcmaroon",
+                    "email": "mcmaroonmc@gmail.com"
                 }
             ],
             "description": "Prestashop module helper",
             "homepage": "https://github.com/mcmaroon/mcps_helper",
             "keywords": [
                 "helper",
+                "module",
                 "prestashop"
             ],
-            "time": "2018-02-06 22:49:37"
+            "time": "2018-02-23 21:16:17"
         }
     ],
     "packages-dev": [],
