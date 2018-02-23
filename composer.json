@@ -1,6 +1,6 @@
 {
     "name": "mcps_popup",
-    "description": "Enables you to display popup on selected pages of the website.",
+    "description": "Displays popup on any page of the store created on CMS PrestaShop.",
     "keywords": ["php", "module", "mit", "prestashop", "popup"],
     "homepage": "https://github.com/mcmaroon/mcps_popup",
     "license": "MIT",

@@ -1,6 +1,6 @@
 # Popup for PrestaShop
 
-Enables you to display popup on selected pages of the website.
+Displays popup on any page of the store created on CMS PrestaShop.
 
 Compatible with versions 1.6.x - 1.7.x
 
