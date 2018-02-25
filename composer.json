@@ -1,5 +1,5 @@
 {
-    "name": "mcps_popup",
+    "name": "mcmaroon/mcps_popup",
     "description": "Displays popup on any page of the store created on CMS PrestaShop.",
     "keywords": ["php", "module", "mit", "prestashop", "popup"],
     "homepage": "https://github.com/mcmaroon/mcps_popup",
