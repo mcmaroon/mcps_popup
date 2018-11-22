@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "69a339ecea45e92020aa96ccc28429fc",
+    "content-hash": "bc87da180008f06d5a6a7245853059f7",
     "packages": [
         {
             "name": "mcmaroon/mcps_helper",
@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcmaroon/mcps_helper.git",
-                "reference": "056b06b4f05616dac2862031b1987c219fe3cd74"
+                "reference": "fd6828c2d1c892968b0c9702d1415269dc7fb09f"
             },
             "require-dev": {
                 "consolidation/robo": "1.0.6",
@@ -46,7 +46,7 @@
                 "module",
                 "prestashop"
             ],
-            "time": "2018-02-23 21:16:17"
+            "time": "2018-06-06T12:27:56+00:00"
         }
     ],
     "packages-dev": [],
