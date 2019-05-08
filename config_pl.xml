@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
 	<name>mcps_popup</name>
-	<displayName><![CDATA[Popup for PrestaShop]]></displayName>
+	<displayName><![CDATA[Okienko Popup dla Prestashop]]></displayName>
 	<version><![CDATA[1.0.0]]></version>
-	<description><![CDATA[Enables you to display popup on selected pages of the website.]]></description>
+	<description><![CDATA[Wyświetlaj komunikat na wybranych stronach serwisu.]]></description>
 	<author><![CDATA[Marek Ciarkowski]]></author>
 	<tab><![CDATA[front_office_features]]></tab>
 	<is_configurable>1</is_configurable>

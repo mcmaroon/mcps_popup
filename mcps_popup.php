@@ -42,7 +42,7 @@ class mcps_popup extends Module
     }
 
     public function setConfigurationForm()
-    {        
+    {
         $this->addConfigurationBoolean('useModuleCoreCss', true, $this->l('Use Module Css'));
         $this->addConfigurationBoolean('useModuleCoreJs', true, $this->l('Use Module Js'));
         $this->addConfigurationFormElement('text', 'dateStart', date('Y-m-d', strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
@@ -73,7 +73,8 @@ class mcps_popup extends Module
         }
 
         $visibility = $config['visibility'];
-        $pages = preg_split('/(\r\n?|\n)/', $config['pages']);
+        $pagesClearString = filter_var($config['pages'], FILTER_SANITIZE_STRING);
+        $pages = preg_split('/(\r\n?|\n| )/', $pagesClearString);
         $hasMatch = false;
         $body_classes = array();
         $smarty = $this->context->smarty;
