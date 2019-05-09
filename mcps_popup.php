@@ -31,8 +31,7 @@ class mcps_popup extends Module
         return
             parent::install() &&
             $this->registerHook('displayFooter') &&
-            $this->registerHook('header')
-        ;
+            $this->registerHook('header');
     }
 
     public function uninstall()
@@ -43,12 +42,18 @@ class mcps_popup extends Module
 
     public function setConfigurationForm()
     {
+        $pages = [
+            'default', 'category-3', 'category-5', // ps 1.6.x
+            'page-index', 'category-id-3', 'category-id-5', // ps 1.7.x
+        ];
+
+        $this->addConfigurationBoolean('debugMode', false, $this->l('Debug Mode'));
         $this->addConfigurationBoolean('useModuleCoreCss', true, $this->l('Use Module Css'));
         $this->addConfigurationBoolean('useModuleCoreJs', true, $this->l('Use Module Js'));
         $this->addConfigurationFormElement('text', 'dateStart', date('Y-m-d', strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
         $this->addConfigurationFormElement('text', 'dateEnd', date('Y-m-d H:i', strtotime('+1 week')), $this->l('Display to'), $this->l('Date of the end of the display in a format compatible with php strtotime documentation.'));
         $this->addConfigurationBoolean('visibility', true, $this->l('Visibility'), $this->l('Display on these pages from the list or on all other pages except those listed.'));
-        $this->addConfigurationFormElement('textarea', 'pages', 'default' . PHP_EOL . 'category-3' . PHP_EOL . 'category-5', $this->l('Pages'), $this->l('Pages (body class) on which a popup should appear. The separator of subsequent entries is a new line character. "default" = homepage ex: category-3'));
+        $this->addConfigurationFormElement('textarea', 'pages', implode(PHP_EOL, $pages), $this->l('Pages'), $this->l('Pages (body class) on which a popup should appear. The separator of subsequent entries is a new line character. "default" = homepage ex: category-3'));
         $this->addConfigurationFormElement('text', 'title', [], $this->l('Title'), null, [], true);
         $this->addConfigurationFormElement('textarea', 'body', '', $this->l('Body'), null, [], true);
         $this->addConfigurationBoolean('displayReturnToSiteBtn', true, $this->l('Display return to site button'));
@@ -80,11 +85,11 @@ class mcps_popup extends Module
         $smarty = $this->context->smarty;
         // ps 1.6.x
         if (isset($smarty->tpl_vars) && isset($smarty->tpl_vars['body_classes']) && $smarty->tpl_vars['body_classes'] instanceof \Smarty_Variable) {
-            $body_classes = (array) $smarty->tpl_vars['body_classes']->value;
+            $body_classes = (array)$smarty->tpl_vars['body_classes']->value;
         }
         // ps 1.7.x
         if (isset($smarty->tpl_vars) && isset($smarty->tpl_vars['page']) && $smarty->tpl_vars['page'] instanceof \Smarty_Variable && isset($smarty->tpl_vars['page']->value['body_classes'])) {
-            $body_classes = (array) array_keys($smarty->tpl_vars['page']->value['body_classes']);
+            $body_classes = (array)array_keys($smarty->tpl_vars['page']->value['body_classes']);
         }
 
         // Default value for index page if empty. Ps 1.6.x
@@ -112,7 +117,11 @@ class mcps_popup extends Module
             $this->smarty->assign('config', $config);
         }
 
-        if (($visibility === true && $hasMatch === true) || ($visibility === false && $hasMatch === false)) {
+        if($config['debugMode'] === true){
+            $this->smarty->assign('body_classes', $body_classes);
+        }
+
+        if (($visibility === true && $hasMatch === true) || ($visibility === false && $hasMatch === false) || $config['debugMode'] === true) {
             if (method_exists($this, 'fetch')) {
                 return $this->fetch($templateFile, $this->getCacheId($this->name)); // ps 1.7.x
             } else {

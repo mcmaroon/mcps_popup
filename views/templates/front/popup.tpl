@@ -1,7 +1,14 @@
-<div id="mcps_popup" class="mcps-popup">    
+<div id="mcps_popup" class="mcps-popup">
     <div class="popup-inner">
         <span class="popup-close">&times;</span>
-        <div class="popup-content">            
+        <div class="popup-content">
+            {if $config.debugMode === true}
+                <div class="mcps-debug">
+                    <pre>
+                        {$body_classes|@print_r}
+                    </pre>
+                </div>
+            {/if}
             {if isset($config.title) and isset($config.title[$id_language]) and $config.title[$id_language]|count_characters}
                 <p class="popup-title">{$config.title[$id_language]|strip_tags}</p>
             {/if}
@@ -16,22 +23,22 @@
 </div>
 
 {if $config.useModuleCoreJs === true}
-    {literal}
-        <script>
-            window.onload = function () {
-                var popup = document.getElementById('mcps_popup');
-                popup.style.display = "block";
+{literal}
+    <script>
+        window.onload = function () {
+            var popup = document.getElementById('mcps_popup');
+            popup.style.display = "block";
 
-                popup.onclick = function () {
-                    popup.style.display = "none";
-                };
-
-                var popupClose = document.getElementsByClassName("popup-close")[0];
-
-                popupClose.onclick = function () {
-                    popup.style.display = "none";
-                };
+            popup.onclick = function () {
+                popup.style.display = "none";
             };
-        </script>
-    {/literal}
+
+            var popupClose = document.getElementsByClassName("popup-close")[0];
+
+            popupClose.onclick = function () {
+                popup.style.display = "none";
+            };
+        };
+    </script>
+{/literal}
 {/if}
