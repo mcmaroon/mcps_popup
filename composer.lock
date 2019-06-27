@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mcmaroon/mcps_helper.git",
-                "reference": "777411d85da6468c667183b658329c78e48c7951"
+                "reference": "e67534fc17e4e2ed69af051eb59ada732f58316d"
             },
             "require-dev": {
                 "consolidation/robo": "1.0.6",
