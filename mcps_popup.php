@@ -54,12 +54,12 @@ class mcps_popup extends Module
         $this->addConfigurationBoolean('debugMode', false, $this->l('Debug Mode'));
         $this->addConfigurationBoolean('useModuleCoreCss', true, $this->l('Use Module Css'));
         $this->addConfigurationBoolean('useModuleCoreJs', true, $this->l('Use Module Js'));
-        $this->addConfigurationFormElement('text', 'dateStart', date('Y-m-d', strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
-        $this->addConfigurationFormElement('text', 'dateEnd', date('Y-m-d H:i', strtotime('+1 week')), $this->l('Display to'), $this->l('Date of the end of the display in a format compatible with php strtotime documentation.'));
+        $this->addConfigurationText('dateStart', date('Y-m-d', strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
+        $this->addConfigurationText('dateEnd', date('Y-m-d H:i', strtotime('+1 week')), $this->l('Display to'), $this->l('Date of the end of the display in a format compatible with php strtotime documentation.'));
         $this->addConfigurationBoolean('visibility', true, $this->l('Visibility'), $this->l('Display on these pages from the list or on all other pages except those listed.'));
-        $this->addConfigurationFormElement('textarea', 'pages', implode(PHP_EOL, $pages), $this->l('Pages'), $this->l('Pages (body class) on which a popup should appear. The separator of subsequent entries is a new line character. "default" = homepage ex: category-3'));
-        $this->addConfigurationFormElement('text', 'title', [], $this->l('Title'), null, [], true);
-        $this->addConfigurationFormElement('textarea', 'body', '', $this->l('Body'), null, [], true);
+        $this->addConfigurationTextArea('pages', implode(PHP_EOL, $pages), $this->l('Pages'), $this->l('Pages (body class) on which a popup should appear. The separator of subsequent entries is a new line character. "default" = homepage ex: category-3'));
+        $this->addConfigurationText('title', [], $this->l('Title'), null, [], true);
+        $this->addConfigurationTextArea('body', '', $this->l('Body'), null, [], true);
         $this->addConfigurationBoolean('displayReturnToSiteBtn', true, $this->l('Display return to site button'));
     }
 
