@@ -3,7 +3,11 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once __DIR__ . '/vendor/autoload.php';
+if (Module::isInstalled('mcps_core')) {
+    require __DIR__ . '/../mcps_core/vendor/autoload.php';
+} else {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
 
 class mcps_popup extends Module
 {
@@ -117,7 +121,7 @@ class mcps_popup extends Module
             $this->smarty->assign('config', $config);
         }
 
-        if($config['debugMode'] === true){
+        if ($config['debugMode'] === true) {
             $this->smarty->assign('body_classes', $body_classes);
         }
 
