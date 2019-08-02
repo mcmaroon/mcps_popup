@@ -3,8 +3,9 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-if (Module::isInstalled('mcps_core')) {
-    require __DIR__ . '/../mcps_core/vendor/autoload.php';
+$mcpsCoreAutoloadPath = __DIR__ . '/../mcps_core/mcps_core_autoload.php';
+if (file_exists($mcpsCoreAutoloadPath)) {
+    require_once $mcpsCoreAutoloadPath;
 } else {
     require_once __DIR__ . '/vendor/autoload.php';
 }
@@ -16,7 +17,7 @@ class mcps_popup extends Module
 
     public function __construct()
     {
-        $this->name = basename(dirname(__FILE__));
+        $this->name = static::class;
         $this->tab = 'front_office_features';
         $this->version = '1.0.0';
         $this->author = 'Marek Ciarkowski';

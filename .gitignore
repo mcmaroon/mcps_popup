@@ -3,3 +3,4 @@
 /schema/dev/
 *.log
 *.sql
+*.xml
