@@ -13,7 +13,7 @@ if (file_exists($mcpsCoreAutoloadPath)) {
 class mcps_popup extends Module
 {
 
-    use \MCPS\Helper\Configuration\ConfigurationFormTrait;
+    use \MCPS\Core\Helper\Configuration\ConfigurationFormTrait;
 
     public function __construct()
     {
