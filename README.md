@@ -6,13 +6,13 @@ Compatible with versions 1.6.x - 1.7.x
 
 ![Screenshot](docs/images/screen-front.png)
 
-### Installing
+## Installing
 
 1) Close the repository
-
-2) Enter the cd mcps_popup directory
-
-3) Run "composer install" in the command line.
+2) Enter the `cd mcps_popup` directory
+3) Run `composer install` in the command line.
+4) Install module 
+5) Go to configuration in `Module Manager`
 
 ![Screenshot](docs/images/screen-back.png)
 

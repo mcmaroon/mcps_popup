@@ -17,6 +17,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "MCPS\\Popup\\": "",
             "Tests\\": "tests/"
         }
     },

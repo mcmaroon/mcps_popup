@@ -3,31 +3,29 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-$mcpsCoreAutoloadPath = __DIR__ . '/../mcps_core/mcps_core_autoload.php';
+$mcpsCoreAutoloadPath = __DIR__ . '/vendor/autoload.php';
 if (file_exists($mcpsCoreAutoloadPath)) {
-    require_once $mcpsCoreAutoloadPath;
-} else {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
 class mcps_popup extends Module
 {
 
-    use \MCPS\Core\Helper\Configuration\ConfigurationFormTrait;
+    use \MCPS\Popup\Helper\Configuration\ConfigurationFormTrait;
 
     public function __construct()
     {
         $this->name = static::class;
         $this->tab = 'front_office_features';
         $this->version = '1.0.0';
-        $this->author = 'Marek Ciarkowski';
+        $this->author = 'Marek Ciarkowski (WebPlanner)';
         $this->need_instance = 0;
         $this->bootstrap = true;
 
         parent::__construct();
 
         $this->displayName = $this->l('Popup for PrestaShop');
-        $this->description = $this->l('Enables you to display popup on selected pages of the website.');
+        $this->description = $this->l('Displays pop-ups on selected pages of the site.');
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
     }
 
@@ -55,10 +53,10 @@ class mcps_popup extends Module
         $this->addConfigurationBoolean('debugMode', false, $this->l('Debug Mode'));
         $this->addConfigurationBoolean('useModuleCoreCss', true, $this->l('Use Module Css'));
         $this->addConfigurationBoolean('useModuleCoreJs', true, $this->l('Use Module Js'));
-        $this->addConfigurationText('dateStart', date('Y-m-d', strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
+        $this->addConfigurationText('dateStart', date('Y-m-d H:i', strtotime('now')), $this->l('Display from'), $this->l('Starting date of display in a format compatible with php strtotime documentation.'));
         $this->addConfigurationText('dateEnd', date('Y-m-d H:i', strtotime('+1 week')), $this->l('Display to'), $this->l('Date of the end of the display in a format compatible with php strtotime documentation.'));
-        $this->addConfigurationBoolean('visibility', true, $this->l('Visibility'), $this->l('Display on these pages from the list or on all other pages except those listed.'));
-        $this->addConfigurationTextArea('pages', implode(PHP_EOL, $pages), $this->l('Pages'), $this->l('Pages (body class) on which a popup should appear. The separator of subsequent entries is a new line character. "default" = homepage ex: category-3'));
+        $this->addConfigurationBoolean('visibility', true, $this->l('Visibility'), $this->l('Display on pages from the list or on all other pages except those listed.'));
+        $this->addConfigurationText('pages', implode(',', $pages), $this->l('Pages'), $this->l('Pages (body class) on which a popup should appear. The separator of consecutive entries is a comma sign. "default" = homepage ex: category-3'));
         $this->addConfigurationText('title', [], $this->l('Title'), null, [], true);
         $this->addConfigurationTextArea('body', '', $this->l('Body'), null, [], true);
         $this->addConfigurationBoolean('displayReturnToSiteBtn', true, $this->l('Display return to site button'));
@@ -84,8 +82,9 @@ class mcps_popup extends Module
 
         $visibility = $config['visibility'];
         $pagesClearString = filter_var($config['pages'], FILTER_SANITIZE_STRING);
-        $pages = preg_split('/(\r\n?|\n| )/', $pagesClearString);
+        $pages = explode(',', $pagesClearString);
         $hasMatch = false;
+        $matchIndex = null;
         $body_classes = array();
         $smarty = $this->context->smarty;
         // ps 1.6.x
@@ -102,12 +101,11 @@ class mcps_popup extends Module
             array_push($body_classes, 'default');
         }
 
-        if (count($body_classes)) {
-            foreach ($pages as $page) {
-                if (is_numeric(array_search(trim($page), $body_classes))) {
-                    $hasMatch = true;
-                    break;
-                }
+        foreach ($pages as $page) {
+            if (is_numeric($searchIndex = array_search(trim($page), $body_classes))) {
+                $hasMatch = true;
+                $matchIndex = $searchIndex;
+                break;
             }
         }
 
@@ -124,6 +122,7 @@ class mcps_popup extends Module
 
         if ($config['debugMode'] === true) {
             $this->smarty->assign('body_classes', $body_classes);
+            $this->smarty->assign('matchIndex', $matchIndex);
         }
 
         if (($visibility === true && $hasMatch === true) || ($visibility === false && $hasMatch === false) || $config['debugMode'] === true) {

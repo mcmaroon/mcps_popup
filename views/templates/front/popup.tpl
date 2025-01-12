@@ -3,12 +3,38 @@
         <span class="popup-close">&times;</span>
         <div class="popup-content">
             {if $config.debugMode === true}
+                <style>
+                    .mcps-debug {
+                        font-size: 11px;
+                        width: 100%;
+                    }
+                    .mcps-debug caption {
+                        caption-side: top;
+                        text-align: center;
+                    }
+                    .mcps-debug td {
+                        padding: 2px 5px;
+                    }
+                </style>
                 <div class="mcps-debug">
-                    <pre>
-                        {$body_classes|@print_r}
-                    </pre>
+                    <table id="mcps_debug_table" class="table table-hover table-bordered">
+                        <caption>{l s='Debug information' mod='mcps_popup'}</caption>
+                        <tr>
+                            <th>{l s='Key' mod='mcps_popup'} </th>
+                            <th>{l s='Body class value' mod='mcps_popup'} </th>
+                            <th>{l s='Match' mod='mcps_popup'} </th>
+                        </tr>
+                        {foreach from=$body_classes key=bck item=bcv}
+                            <tr {if $bck === $matchIndex}style="font-weight: bold;"{/if}>
+                                <td>{$bck|escape:'htmlall':'UTF-8'}</td>
+                                <td>{$bcv|escape:'htmlall':'UTF-8'}</td>
+                                <td>{if $bck === $matchIndex}true{else}false{/if}</td>
+                            </tr>
+                        {/foreach}
+                    </table>
                 </div>
             {/if}
+
             {if isset($config.title) and isset($config.title[$id_language]) and $config.title[$id_language]|count_characters}
                 <p class="popup-title">{$config.title[$id_language]|strip_tags}</p>
             {/if}
